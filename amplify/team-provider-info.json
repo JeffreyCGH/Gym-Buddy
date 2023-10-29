@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gymbuddy-dev-35358-authRole",
+      "UnauthRoleArn": "arn:aws:iam::278211126757:role/amplify-gymbuddy-dev-35358-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::278211126757:role/amplify-gymbuddy-dev-35358-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-gymbuddy-dev-35358-deployment",
+      "UnauthRoleName": "amplify-gymbuddy-dev-35358-unauthRole",
+      "StackName": "amplify-gymbuddy-dev-35358",
+      "StackId": "arn:aws:cloudformation:us-east-2:278211126757:stack/amplify-gymbuddy-dev-35358/50eb74e0-7630-11ee-9639-069b69483a47",
+      "AmplifyAppId": "d3rr9wtnkg2zxc"
+    },
+    "categories": {
+      "auth": {
+        "GymBuddyAuth": {}
+      }
+    }
+  }
+}
