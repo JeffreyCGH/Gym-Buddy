@@ -1,4 +1,4 @@
-type User @model {
+type User @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) {
     id: ID!
     email: String! @unique
     name: String
@@ -11,13 +11,13 @@ type User @model {
     chats: [Chat] @connection(keyName: "byUser1", fields: ["id"])
 }
 
-type WorkoutDay @model {
+type WorkoutDay @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) {
     id: ID!
     dayName: String!
     users: [UserWorkoutDay] @connection(keyName: "byWorkoutDay", fields: ["id"])
 }
 
-type UserWorkoutDay @model @key(name: "byUser", fields: ["userId", "workoutDayId"]) @key(name: "byWorkoutDay", fields: ["workoutDayId", "userId"]) {
+type UserWorkoutDay @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) @key(name: "byUser", fields: ["userId", "workoutDayId"]) @key(name: "byWorkoutDay", fields: ["workoutDayId", "userId"]) {
     id: ID!
     userId: ID!
     workoutDayId: ID!
@@ -25,7 +25,7 @@ type UserWorkoutDay @model @key(name: "byUser", fields: ["userId", "workoutDayId
     workoutDay: WorkoutDay @connection(fields: ["workoutDayId"])
 }
 
-type Chat @model @key(name: "byUser1", fields: ["user1ID", "user2ID"]) {
+type Chat @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) @key(name: "byUser1", fields: ["user1ID", "user2ID"]) {
     id: ID!
     user1ID: ID!
     user2ID: ID!
@@ -34,7 +34,7 @@ type Chat @model @key(name: "byUser1", fields: ["user1ID", "user2ID"]) {
     messages: [Message] @connection(keyName: "byChat", fields: ["id"])
 }
 
-type Message @model @key(name: "byChat", fields: ["chatId"]) {
+type Message @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) @key(name: "byChat", fields: ["chatId"]) {
     id: ID!
     chatId: ID!
     senderID: ID!
