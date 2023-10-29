@@ -1,0 +1,44 @@
+type User @model {
+    id: ID!
+    email: String! @unique
+    name: String
+    age: Int
+    gender: String
+    experience: String
+    password: String
+    profilePicture: String
+    workoutDays: [UserWorkoutDay] @connection(keyName: "byUser", fields: ["id"])
+    chats: [Chat] @connection(keyName: "byUser1", fields: ["id"])
+}
+
+type WorkoutDay @model {
+    id: ID!
+    dayName: String!
+    users: [UserWorkoutDay] @connection(keyName: "byWorkoutDay", fields: ["id"])
+}
+
+type UserWorkoutDay @model @key(name: "byUser", fields: ["userId", "workoutDayId"]) @key(name: "byWorkoutDay", fields: ["workoutDayId", "userId"]) {
+    id: ID!
+    userId: ID!
+    workoutDayId: ID!
+    user: User @connection(fields: ["userId"])
+    workoutDay: WorkoutDay @connection(fields: ["workoutDayId"])
+}
+
+type Chat @model @key(name: "byUser1", fields: ["user1ID", "user2ID"]) {
+    id: ID!
+    user1ID: ID!
+    user2ID: ID!
+    user1: User @connection(fields: ["user1ID"])
+    user2: User @connection(fields: ["user2ID"])
+    messages: [Message] @connection(keyName: "byChat", fields: ["id"])
+}
+
+type Message @model @key(name: "byChat", fields: ["chatId"]) {
+    id: ID!
+    chatId: ID!
+    senderID: ID!
+    content: String
+    timestamp: AWSDateTime!
+    chat: Chat @connection(fields: ["chatId"])
+}
