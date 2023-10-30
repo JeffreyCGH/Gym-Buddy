@@ -2,58 +2,56 @@ type User
     @model 
     @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
 {
-    id: ID! @primaryKey
+    id: ID!
     email: String!
     name: String
     age: Int
     gender: String
     experience: String
     profilePicture: String
-    workoutDays: [UserWorkoutDay] @hasMany(fields: ["id"])
-    chatsInitiated: [Chat] @hasMany(fields: ["user1ID"])
-    chatsReceived: [Chat] @hasMany(fields: ["user2ID"])
+    workoutDays: [UserWorkoutDay] @connection(keyName: "byUser", fields: ["id"])
+    chatsInitiated: [Chat] @connection(name: "UserChats1")
+    chatsReceived: [Chat] @connection(name: "UserChats2")
 }
 
 type WorkoutDay 
     @model 
     @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
 {
-    id: ID! @primaryKey
+    id: ID!
     dayName: String!
-    users: [UserWorkoutDay] @hasMany(fields: ["workoutDayId"])
+    users: [UserWorkoutDay] @connection(keyName: "byWorkoutDay", fields: ["id"])
 }
 
 type UserWorkoutDay 
     @model 
+    @key(name: "byUser", fields: ["userId"])
+    @key(name: "byWorkoutDay", fields: ["workoutDayId"])
     @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
 {
-    id: ID! @primaryKey
+    id: ID!
     userId: ID!
     workoutDayId: ID!
-    user: User @belongsTo(fields: ["userId"])
-    workoutDay: WorkoutDay @belongsTo(fields: ["workoutDayId"])
 }
 
 type Chat 
     @model 
     @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
 {
-    id: ID! @primaryKey
-    user1ID: ID!
-    user2ID: ID!
-    user1: User @belongsTo(fields: ["user1ID"])
-    user2: User @belongsTo(fields: ["user2ID"])
-    messages: [Message] @hasMany(fields: ["chatId"])
+    id: ID!
+    user1ID: ID! @connection(name: "UserChats1")
+    user2ID: ID! @connection(name: "UserChats2")
+    messages: [Message] @connection(keyName: "byChat", fields: ["id"])
 }
 
 type Message 
     @model 
+    @key(name: "byChat", fields: ["chatId"])
     @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
 {
-    id: ID! @primaryKey
+    id: ID!
     chatId: ID!
     senderId: ID!
     content: String
     timestamp: AWSDateTime!
-    chat: Chat @belongsTo(fields: ["chatId"])
 }
