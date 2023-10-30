@@ -10,8 +10,8 @@ type User
     experience: String
     profilePicture: String
     workoutDays: [UserWorkoutDay] @hasMany(fields: ["id"])
-    chatsInitiated: [Chat] @hasMany(fields: ["user1Id"])
-    chatsReceived: [Chat] @hasMany(fields: ["user2Id"])
+    chatsInitiated: [Chat] @hasMany(fields: ["user1ID"])
+    chatsReceived: [Chat] @hasMany(fields: ["user2ID"])
 }
 
 type WorkoutDay 
@@ -39,10 +39,10 @@ type Chat
     @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
 {
     id: ID! @primaryKey
-    user1Id: ID!
-    user2Id: ID!
-    user1: User @belongsTo(fields: ["user1Id"])
-    user2: User @belongsTo(fields: ["user2Id"])
+    user1ID: ID!
+    user2ID: ID!
+    user1: User @belongsTo(fields: ["user1ID"])
+    user2: User @belongsTo(fields: ["user2ID"])
     messages: [Message] @hasMany(fields: ["chatId"])
 }
 
