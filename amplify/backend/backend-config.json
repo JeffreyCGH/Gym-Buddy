@@ -14,15 +14,14 @@
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "apiKeyConfig": {
-                "apiKeyExpirationDate": "2023-11-28T23:05:20.077Z",
-                "apiKeyExpirationDays": 30,
-                "description": "API key for Gym Buddy app development and testing phase"
-              },
-              "authenticationType": "API_KEY"
+              "authenticationType": "AWS_IAM"
             },
             {
-              "authenticationType": "AWS_IAM"
+              "apiKeyConfig": {
+                "apiKeyExpirationDays": 30,
+                "description": "api key description"
+              },
+              "authenticationType": "API_KEY"
             }
           ],
           "defaultAuthentication": {

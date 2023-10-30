@@ -27,7 +27,7 @@ enum WORKOUTTYPE {
 
 type UserProfile @model @auth(rules: [{allow: public}]) {
   id: ID!
-  email: String! 
+  email: String!
   gender: String
   age: Int
   experience: String
@@ -35,3 +35,4 @@ type UserProfile @model @auth(rules: [{allow: public}]) {
   profilePicure: String
   WorkoutType: WORKOUTTYPE
 }
+ 

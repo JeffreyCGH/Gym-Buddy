@@ -9,14 +9,18 @@
     },
     "additionalAuthTypes": [
       {
-        "mode": "API_KEY",
-        "expirationTime": 30,
-        "apiKeyExpirationDate": "2023-11-28T23:05:20.077Z",
-        "keyDescription": "API key for Gym Buddy app development and testing phase"
+        "mode": "AWS_IAM"
       },
       {
-        "mode": "AWS_IAM"
+        "mode": "API_KEY",
+        "keyDescription": "api key description",
+        "expirationTime": 30
       }
-    ]
+    ],
+    "conflictResolution": {
+      "defaultResolutionStrategy": {
+        "type": "NONE"
+      }
+    }
   }
 }

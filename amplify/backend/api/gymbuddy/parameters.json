@@ -7,5 +7,6 @@
       "authGymBuddyAuth",
       "Outputs.UserPoolId"
     ]
-  }
+  },
+  "AuthModeLastUpdated": "2023-10-30T02:24:47.598Z"
 }
