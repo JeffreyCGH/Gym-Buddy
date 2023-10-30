@@ -9,9 +9,9 @@ type User
     gender: String
     experience: String
     profilePicture: String
-    workoutDays: [UserWorkoutDay] @hasMany(indexName: "byUser", fields: ["id"])
-    chatsInitiated: [Chat] @hasMany(indexName: "byUser1", fields: ["id"])
-    chatsReceived: [Chat] @hasMany(indexName: "byUser2", fields: ["id"])
+    workoutDays: [UserWorkoutDay] @hasMany(fields: ["id"])
+    chatsInitiated: [Chat] @hasMany(fields: ["user1Id"])
+    chatsReceived: [Chat] @hasMany(fields: ["user2Id"])
 }
 
 type WorkoutDay 
@@ -20,14 +20,12 @@ type WorkoutDay
 {
     id: ID! @primaryKey
     dayName: String!
-    users: [UserWorkoutDay] @hasMany(indexName: "byWorkoutDay", fields: ["id"])
+    users: [UserWorkoutDay] @hasMany(fields: ["workoutDayId"])
 }
 
 type UserWorkoutDay 
     @model 
     @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
-    @index(name: "byUser", sortKeyFields: ["workoutDayId"])
-    @index(name: "byWorkoutDay", sortKeyFields: ["userId"])
 {
     id: ID! @primaryKey
     userId: ID!
@@ -39,20 +37,18 @@ type UserWorkoutDay
 type Chat 
     @model 
     @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
-    @index(name: "byUser1", sortKeyFields: ["user2Id"])
 {
     id: ID! @primaryKey
     user1Id: ID!
     user2Id: ID!
     user1: User @belongsTo(fields: ["user1Id"])
     user2: User @belongsTo(fields: ["user2Id"])
-    messages: [Message] @hasMany(indexName: "byChat", fields: ["id"])
+    messages: [Message] @hasMany(fields: ["chatId"])
 }
 
 type Message 
     @model 
     @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
-    @index(name: "byChat", sortKeyFields: ["chatId"])
 {
     id: ID! @primaryKey
     chatId: ID!
