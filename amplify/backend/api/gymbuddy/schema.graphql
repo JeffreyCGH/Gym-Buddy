@@ -1,57 +1,37 @@
-type User 
-    @model 
-    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
-{
-    id: ID!
-    email: String!
-    name: String
-    age: Int
-    gender: String
-    experience: String
-    profilePicture: String
-    workoutDays: [UserWorkoutDay] @connection(keyName: "byUser", fields: ["id"])
-    chatsInitiated: [Chat] @connection(name: "UserChats1")
-    chatsReceived: [Chat] @connection(name: "UserChats2")
+type Message @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  chat: String!
+  sender: String!
+  text: String!
+  timestamp: AWSDateTime!
+  relatedChat: Chat @hasOne
+  senderProfile: UserProfile @hasOne
 }
 
-type WorkoutDay 
-    @model 
-    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
-{
-    id: ID!
-    dayName: String!
-    users: [UserWorkoutDay] @connection(keyName: "byWorkoutDay", fields: ["id"])
+type Chat @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  lastMessageTimestamp: AWSTimestamp
+  user1: String
+  user1Profile: UserProfile @hasOne
+  user2: String
+  user2Profile: UserProfile @hasOne
 }
 
-type UserWorkoutDay 
-    @model 
-    @key(name: "byUser", fields: ["userId"])
-    @key(name: "byWorkoutDay", fields: ["workoutDayId"])
-    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
-{
-    id: ID!
-    userId: ID!
-    workoutDayId: ID!
+enum WORKOUTTYPE {
+  POWERLIFTING
+  BODYBUILDING
+  CARDIO
+  RECREATIONAL_SPORTS
+  GENERAL_FITNESS
 }
 
-type Chat 
-    @model 
-    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
-{
-    id: ID!
-    user1ID: ID! @connection(name: "UserChats1")
-    user2ID: ID! @connection(name: "UserChats2")
-    messages: [Message] @connection(keyName: "byChat", fields: ["id"])
-}
-
-type Message 
-    @model 
-    @key(name: "byChat", fields: ["chatId"])
-    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
-{
-    id: ID!
-    chatId: ID!
-    senderId: ID!
-    content: String
-    timestamp: AWSDateTime!
+type UserProfile @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  email: String! 
+  gender: String
+  age: Int
+  experience: String
+  workoutDays: [String]
+  profilePicure: String
+  WorkoutType: WORKOUTTYPE
 }
