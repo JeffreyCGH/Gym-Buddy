@@ -1,44 +1,63 @@
-type User @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) {
-    id: ID!
+type User 
+    @model 
+    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
+{
+    id: ID! @primaryKey
     email: String!
     name: String
     age: Int
     gender: String
     experience: String
-    password: String
     profilePicture: String
-    workoutDays: [UserWorkoutDay] @connection(keyName: "byUser", fields: ["id"])
-    chats: [Chat] @connection(keyName: "byUser1", fields: ["id"])
+    workoutDays: [UserWorkoutDay] @hasMany(indexName: "byUser", fields: ["id"])
+    chatsInitiated: [Chat] @hasMany(indexName: "byUser1", fields: ["id"])
+    chatsReceived: [Chat] @hasMany(indexName: "byUser2", fields: ["id"])
 }
 
-type WorkoutDay @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) {
-    id: ID!
+type WorkoutDay 
+    @model 
+    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
+{
+    id: ID! @primaryKey
     dayName: String!
-    users: [UserWorkoutDay] @connection(keyName: "byWorkoutDay", fields: ["id"])
+    users: [UserWorkoutDay] @hasMany(indexName: "byWorkoutDay", fields: ["id"])
 }
 
-type UserWorkoutDay @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) @key(name: "byUser", fields: ["userId", "workoutDayId"]) @key(name: "byWorkoutDay", fields: ["workoutDayId", "userId"]) {
-    id: ID!
+type UserWorkoutDay 
+    @model 
+    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
+    @index(name: "byUser", sortKeyFields: ["workoutDayId"])
+    @index(name: "byWorkoutDay", sortKeyFields: ["userId"])
+{
+    id: ID! @primaryKey
     userId: ID!
     workoutDayId: ID!
-    user: User @connection(fields: ["userId"])
-    workoutDay: WorkoutDay @connection(fields: ["workoutDayId"])
+    user: User @belongsTo(fields: ["userId"])
+    workoutDay: WorkoutDay @belongsTo(fields: ["workoutDayId"])
 }
 
-type Chat @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) @key(name: "byUser1", fields: ["user1ID", "user2ID"]) {
-    id: ID!
-    user1ID: ID!
-    user2ID: ID!
-    user1: User @connection(fields: ["user1ID"])
-    user2: User @connection(fields: ["user2ID"])
-    messages: [Message] @connection(keyName: "byChat", fields: ["id"])
+type Chat 
+    @model 
+    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
+    @index(name: "byUser1", sortKeyFields: ["user2Id"])
+{
+    id: ID! @primaryKey
+    user1Id: ID!
+    user2Id: ID!
+    user1: User @belongsTo(fields: ["user1Id"])
+    user2: User @belongsTo(fields: ["user2Id"])
+    messages: [Message] @hasMany(indexName: "byChat", fields: ["id"])
 }
 
-type Message @model @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }]) @key(name: "byChat", fields: ["chatId"]) {
-    id: ID!
+type Message 
+    @model 
+    @auth(rules: [{ allow: owner, operations: [create, read, update, delete] }])
+    @index(name: "byChat", sortKeyFields: ["chatId"])
+{
+    id: ID! @primaryKey
     chatId: ID!
-    senderID: ID!
+    senderId: ID!
     content: String
     timestamp: AWSDateTime!
-    chat: Chat @connection(fields: ["chatId"])
+    chat: Chat @belongsTo(fields: ["chatId"])
 }
