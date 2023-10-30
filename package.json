@@ -4,11 +4,12 @@
   "description": "Gym Buddy JSON package",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build step specified for this project.\""
   },
   "repository": {
     "type": "git",
-    "url": "https//:github.com/JeffreyCGH/Gym-Buddy"
+    "url": "https://github.com/JeffreyCGH/Gym-Buddy"
   },
   "keywords": [
     "training",
