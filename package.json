@@ -4,10 +4,10 @@
   "description": "Gym Buddy JSON package",
   "main": "index.js",
   "scripts": {
-  "start": "react-scripts start",
-  "build": "react-scripts build",
-  "test": "react-scripts test",
-  "eject": "react-scripts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "author": "Gym Buddy Dev Team",
   "license": "ISC",
   "dependencies": {
+    "react-scripts": "latest",
     "@aws-amplify/ui-react": "^5.3.1",
     "aws-amplify": "^5.3.11",
     "bcryptjs": "^2.4.3",
