@@ -1,0 +1,14 @@
+{
+    "AppSyncApiName": "gymbuddy",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authGymBuddyAuth",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "AuthModeLastUpdated": "2023-10-30T02:24:47.598Z",
+    "S3DeploymentBucket": "amplify-gymbuddy-dev-35358-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/c5cf625a032d03fddaf6ee97d63cec5427365be5"
+}
